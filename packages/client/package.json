@@ -1,0 +1,33 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "next start -p 8888",
+    "test": "jest",
+    "dev": "next dev -p 8888",
+    "build": "next build",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.0.1",
+    "@mui/icons-material": "7.0.1",
+    "@mui/material": "7.0.1",
+    "@trpc/client": "^11.0.3",
+    "motion": "^12.6.3",
+    "next": "15.2.4",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-hook-form": "^7.55.0",
+    "server": "^0.0.0",
+    "ua-parser-js": "^2.0.3"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.0",
+    "@types/react-dom": "19.1.1",
+    "eslint": "9.24.0",
+    "eslint-config-next": "15.2.4",
+    "typescript": "5.8.3"
+  }
+}

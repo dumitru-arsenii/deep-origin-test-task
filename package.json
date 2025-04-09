@@ -1,0 +1,32 @@
+{
+  "name": "deep-origin-test-task",
+  "version": "1.0.0",
+  "description": "Deep Origin Test task",
+  "private": true,
+  "scripts": {
+    "start": "turbo run start",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "^1.10.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dumitru-arsenii/deep-origin-test-task.git"
+  },
+  "author": "Arsenii Dumitru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dumitru-arsenii/deep-origin-test-task/issues"
+  },
+  "homepage": "https://github.com/dumitru-arsenii/deep-origin-test-task#readme",
+  "dependencies": {
+    "typescript": "^5.8.3"
+  }
+}

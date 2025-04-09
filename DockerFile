@@ -1,0 +1,61 @@
+# Use the official Node.js image for building
+FROM node:alpine AS builder
+
+# Set the working directory
+WORKDIR /app
+
+# Step 1: Copy all files, install dependencies, and build
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+# Step 2: Copy built client and server packages into the final image
+FROM nginx:alpine
+
+# Set the working directory
+WORKDIR /app
+
+# Copy only the necessary files from the builder stage
+COPY --from=builder /app/packages/client/package*.json /app/packages/client/
+COPY --from=builder /app/packages/client/.next /app/packages/client/.next
+
+COPY --from=builder /app/packages/server/package*.json /app/packages/server/
+COPY --from=builder /app/packages/server/dist /app/packages/server/dist
+COPY --from=builder /app/packages/server/src/migrations/*.sql /app/packages/server/dist/migrations/
+
+# Step 3: Install required packages: Node.js, npm, and PostgreSQL server
+RUN apk add --no-cache nodejs npm postgresql
+
+# Install PM2 globally
+RUN npm install -g pm2
+
+
+WORKDIR /app/packages/client
+RUN npm install --only=production
+
+WORKDIR /app/packages/server
+RUN npm install --only=production
+
+# Initialize PostgreSQL database
+RUN mkdir -p /var/lib/postgresql/data && \
+    chown -R postgres:postgres /var/lib/postgresql && \
+    su postgres -c "initdb -D /var/lib/postgresql/data"
+
+# Copy Nginx configuration and entrypoint script
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY entrypoint.sh /app/entrypoint.sh
+COPY ecosystem.config.js /app/ecosystem.config.js
+
+# Set the working directory
+WORKDIR /app
+
+RUN chmod +x /app/entrypoint.sh
+
+EXPOSE 80
+
+# Use the entrypoint script to start services
+ENTRYPOINT ["/app/entrypoint.sh"]

@@ -125,6 +125,9 @@ dist
 # TernJS port file
 .tern-port
 
+# Turbo files
+.turbo
+
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
